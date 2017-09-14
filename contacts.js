@@ -64,7 +64,7 @@ const addContacts = function(contacts) {
 
     }
     console.log("...Finished loading contact data. \n")
-    if(errExtant){console.log(printErrors(errorLog))}
+    if(errExtant){ return (printErrors(errorLog))}else {return ""}
 }
 
 //new function for printing errors
@@ -90,7 +90,7 @@ const printErrors = function(errArr){
  *  Returns:
  *    undefined
  */
-const printContacts = function() {
+const printContacts = function(errorMsg) {
   var nameCount = 1; //for counting the characters in each name
   var emailCount = 1; //for counting the chars in each email
   contactStorage.sort(function(a,b){
@@ -126,7 +126,10 @@ ${line}`);
             '| ' + contactStorage[i]["email"] +emailSpace+ '|')
     }
     console.log(line);
+
   //printing errors should happen here??
+  //best solution so far?
+  console.log(errorMsg);
 }
 
 
@@ -139,7 +142,7 @@ ${line}`);
 /*          Do not make changes below this line           */
 ////////////////////////////////////////////////////////////
 
-addContacts([{
+var errorMsg = addContacts([{
         "first_name": "Tanny",
         "last_name": "Vibert",
         "email": "tvibert0@illinois.edu",
@@ -257,4 +260,4 @@ addContacts([{
 ])
 
 
-printContacts()
+printContacts(errorMsg)
