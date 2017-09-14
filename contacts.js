@@ -15,13 +15,17 @@ let contactStorage = [] // here is where you'll store your contacts
  *    undefined
  */
 const addContact = function(firstName, lastName, email) {
-    // console.log('addContact:', 'TODO')
+    if(typeof firstName ==='string' && typeof lastName ==='string' & typeof email === 'string'){
     contactStorage.push({
         "first_name": firstName,
         "last_name": lastName,
         "email": email
-    });
-}
+    })} else {
+      throw {firstName, lastName, email}
+      // note to future Celeste: figure out where/how to catch this exception
+    }
+
+};
 
 /*
  * addContacts
@@ -47,13 +51,30 @@ const addContact = function(firstName, lastName, email) {
  *    undefined
  */
 const addContacts = function(contacts) {
+    var errorLog = [];
+    var errExtant = false;
     console.log("Loading contact data...");
     for (var i = 0; i < contacts.length; i++) {
+        try{
         addContact(contacts[i]["first_name"], contacts[i]["last_name"], contacts[i]["email"]);
+      }catch(error){
+          errExtant = true;
+          errorLog.push(error);
+      }
+
     }
     console.log("...Finished loading contact data. \n")
+    if(errExtant){console.log(printErrors(errorLog))}
 }
 
+//new function for printing errors
+const printErrors = function(errArr){
+  var errMsg = "Could not import "+errArr.length+" contacts.";
+  for(var i = 0; i < errArr.length; i++){
+    errMsg += `\nFirst: ${errArr[i]["firstName"]} , Last: ${errArr[i]["lastName"]}, Email: ${errArr[i]["email"]}`
+  }
+  return errMsg;
+}
 
 /*
  * printContacts
@@ -70,7 +91,8 @@ const addContacts = function(contacts) {
  *    undefined
  */
 const printContacts = function() {
-
+  var nameCount = 1; //for counting the characters in each name
+  var emailCount = 1; //for counting the chars in each email
   contactStorage.sort(function(a,b){
     var aFull = (a["first_name"]+a["last_name"]).toLowerCase();
     var bFull = (b["first_name"]+b["last_name"]).toLowerCase();
@@ -82,8 +104,7 @@ const printContacts = function() {
     }
     return 0;
   });
-  var nameCount = 1; //for counting the characters in each name
-  var emailCount = 1; //for counting the chars in each email
+
   //this loop will find the value of the longest name & email
   for (var i = 0; i < contactStorage.length; i++) {
     if (contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length > nameCount) {
@@ -94,7 +115,6 @@ const printContacts = function() {
     }
   }
     var line = "|"+"-".repeat(nameCount+2)+"+"+"-".repeat(emailCount+1)+"|";
-    //console.log('printContacts:', 'TODO')
     console.log('All Contacts:');
     console.log(`${line}
 | Full Name${" ".repeat(nameCount-8)}| Email Address${" ".repeat(emailCount-13)}|
@@ -102,16 +122,12 @@ ${line}`);
     for (var i = 0; i < contactStorage.length; i++) {
         var nameSpace = " ".repeat(nameCount-(contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length));
         var emailSpace = " ".repeat(emailCount-contactStorage[i]["email"].length);
-      /* Was starting to use a loop to make the right spaces, attempting str.repeat() first
-      for (var j = 0; j < nameCount - (contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length); j++) {
-            nameSpace += " ";
-        }*/
         console.log('| ' + contactStorage[i]["first_name"] + ' ' + contactStorage[i]["last_name"] +nameSpace+
             '| ' + contactStorage[i]["email"] +emailSpace+ '|')
     }
     console.log(line);
+  //printing errors should happen here??
 }
-
 
 
 
@@ -222,6 +238,21 @@ addContacts([{
         "first_name": "Winston",
         "last_name": "Hixley",
         "email": "whixleyj@homestead.com",
+    },
+    {
+      "first_name": 55,
+      "last_name": "Myall",
+      "email": "tmyall1@instagram.com"
+    },
+    {
+      "first_name": "Virginia",
+      "last_name": "Cankett",
+      "email": true
+    },
+    {
+      "first_name": "Willdon",
+      "last_name": 22,
+      "email": "whedleyd@purevolume.com"
     },
 ])
 
