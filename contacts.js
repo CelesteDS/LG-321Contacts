@@ -1,5 +1,7 @@
 let contactStorage = [] // here is where you'll store your contacts
 
+// bds: Nice function documentation! Consider using JSDoc (http://usejsdoc.org/)
+// bds: for a standard JS function documentation format
 /*
  * addContact
  *
@@ -15,8 +17,10 @@ let contactStorage = [] // here is where you'll store your contacts
  *    undefined
  */
 const addContact = function(firstName, lastName, email) {
+    // bds: should remove below placeholder content rather than commenting out
     // console.log('addContact:', 'TODO')
-    contactStorage.push({
+      contactStorage.push({
+      // bds: Do you have a linter? It's not standard JS to use double-quotes for strings
         "first_name": firstName,
         "last_name": lastName,
         "email": email
@@ -48,6 +52,7 @@ const addContact = function(firstName, lastName, email) {
  */
 const addContacts = function(contacts) {
     console.log("Loading contact data...");
+    // bds: consider using .forEach() here instead of for
     for (var i = 0; i < contacts.length; i++) {
         addContact(contacts[i]["first_name"], contacts[i]["last_name"], contacts[i]["email"]);
     }
@@ -71,7 +76,15 @@ const addContacts = function(contacts) {
  */
 const printContacts = function() {
 
+// bds: more linter cleanup -- no blank lines padding functions;
+// bds: space between args and opening curly brace;
+// bds: preference for fat arrow notation
   contactStorage.sort(function(a,b){
+    // bds: Since you're using first_name + last_name (with a space
+    // bds: between) in the printout, and you're using it here too,
+    // bds: maybe you should store *that* in contactStorage
+    //
+    // bds: dot notation preferred unless bracket notation is necessary
     var aFull = (a["first_name"]+a["last_name"]).toLowerCase();
     var bFull = (b["first_name"]+b["last_name"]).toLowerCase();
     if(aFull < bFull){
@@ -85,6 +98,8 @@ const printContacts = function() {
   var nameCount = 1; //for counting the characters in each name
   var emailCount = 1; //for counting the chars in each email
   //this loop will find the value of the longest name & email
+  // bds: nice! Finding the longest name / email can be done very efficiently with .reduce()
+  // bds: give it a try. ;-)
   for (var i = 0; i < contactStorage.length; i++) {
     if (contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length > nameCount) {
       nameCount = contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length;
@@ -93,12 +108,20 @@ const printContacts = function() {
       emailCount = contactStorage[i]["email"].length;
     }
   }
+
+  // bds: definitely use template literals here
+  // bds: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+  // bds: for readability
+  // bds: also, use const for variables that aren't going to change, not var
     var line = "|"+"-".repeat(nameCount+2)+"+"+"-".repeat(emailCount+1)+"|";
     //console.log('printContacts:', 'TODO')
     console.log('All Contacts:');
     console.log(`${line}
 | Full Name${" ".repeat(nameCount-8)}| Email Address${" ".repeat(emailCount-13)}|
 ${line}`);
+
+  // bds: use .forEach() instead of for. Also, I bet you can make the below more
+  // bds: readable using above comments.
     for (var i = 0; i < contactStorage.length; i++) {
         var nameSpace = " ".repeat(nameCount-(contactStorage[i]["first_name"].length + contactStorage[i]["last_name"].length));
         var emailSpace = " ".repeat(emailCount-contactStorage[i]["email"].length);
@@ -113,7 +136,12 @@ ${line}`);
 }
 
 
-
+// bds: general: great use of variables to hold max name / email lengths and avoid
+// bds: repeated code (for example, the "line" variable in your printContacts function)
+//
+// bds: Your biggest area for improvement is readability and style. Please install
+// bds: a linter. It is NOT EASY to install a linter for atom. Let me know if you
+// bds: need help.
 
 
 
