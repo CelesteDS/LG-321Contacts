@@ -15,7 +15,7 @@ let contactStorage = [] // here is where you'll store your contacts
  *    undefined
  */
 const addContact = function(firstName, lastName, email) {
-    if(typeof firstName ==='string' && typeof lastName ==='string' & typeof email === 'string'){
+    if(typeof firstName ==='string' && typeof lastName ==='string' && typeof email === 'string'){
     contactStorage.push({
         "first_name": firstName,
         "last_name": lastName,
