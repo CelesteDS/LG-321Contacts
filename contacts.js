@@ -15,12 +15,17 @@ let contactStorage = [] // here is where you'll store your contacts
  *    undefined
  */
 const addContact = function(firstName, lastName, email) {
+  // bds: double && and single & are very different!
+  // bds: https://stackoverflow.com/questions/7310109/whats-the-difference-between-and-in-javascript
     if(typeof firstName ==='string' && typeof lastName ==='string' & typeof email === 'string'){
     contactStorage.push({
         "first_name": firstName,
         "last_name": lastName,
         "email": email
     })} else {
+      // bds: better to throw a new empty Error than throw an object whose value
+      // bds: you won't use
+      // bds: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw
       throw {firstName, lastName, email}
       // note to future Celeste: figure out where/how to catch this exception
     }
@@ -64,12 +69,20 @@ const addContacts = function(contacts) {
 
     }
     console.log("...Finished loading contact data. \n")
+    // bds: you could just use the length of errorLog, and not need errExtant at all
     if(errExtant){ return (printErrors(errorLog))}else {return ""}
+    // bds: check out ternary -- here is a great place for it
+    // bds:   return errExtant ? printErrors(errorLog) : null
+    // bds: also, the styling of the line with the 'return' statements above could
+    // bds: use some cleaning up. Please install eslint and use the airbnb styling. ;-)
 }
 
+// bds: document with the inputs, outputs and usage! see JSDoc from last code review
 //new function for printing errors
 const printErrors = function(errArr){
+  // bds: template literal is more readable than concatenation
   var errMsg = "Could not import "+errArr.length+" contacts.";
+  // bds: consider forEach here instead
   for(var i = 0; i < errArr.length; i++){
     errMsg += `\nFirst: ${errArr[i]["firstName"]} , Last: ${errArr[i]["lastName"]}, Email: ${errArr[i]["email"]}`
   }
